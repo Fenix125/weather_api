@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Fenix125/weather_api#readme",
   "dependencies": {
-    "axios": "^1.9.0"
+    "axios": "^1.9.0",
+    "nodemailer": "^7.0.3"
   }
 }
