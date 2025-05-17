@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <style>
+            .attention-text {
+                color: #ff0000 !important;
+            }
+            .token {
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <h2 class="confirm-email">Confirmation email</h2>
+        <p class="token-text">
+            Your token: <span class="token">{{TOKEN}}</span>
+        </p>
+        <p class="attention-text">Do not share your token with anyone!</p>
+        <p class="link-text">
+            Click link to confirm subscription:
+            <a class="link" href="{{CONFIRM_LINK}}">confirm subscribtion</a>
+        </p>
+    </body>
+</html>
