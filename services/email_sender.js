@@ -22,24 +22,26 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-function buildConfirmationEmail(token) {
+function buildConfirmationEmail(token, city) {
     const confirmUrl = `http://localhost:3000/api/confirm/${token}`;
     return htmlTemplate
         .replace("{{TOKEN}}", token)
-        .replace("{{CONFIRM_LINK}}", confirmUrl);
+        .replace("{{CONFIRM_LINK}}", confirmUrl)
+        .replace("{{CITY}}", city);
 }
 
-function buildUpdateEmail(token, weather) {
+function buildUpdateEmail(token, weather, city) {
     const unsubscribeLink = `http://localhost:3000/api/unsubscribe/${token}`;
     return htmlTemplateUpdate
         .replace("{{TEMPERATURE}}", weather.temperature)
         .replace("{{HUMIDITY}}", weather.humidity)
         .replace("{{DESCRIPTION}}", weather.description)
-        .replace("{{CONFIRM_LINK}}", unsubscribeLink);
+        .replace("{{CONFIRM_LINK}}", unsubscribeLink)
+        .replace("{{CITY}}", city);
 }
 
-function sendConfirmationEmail(token, user_email) {
-    const html = buildConfirmationEmail(token);
+function sendConfirmationEmail(token, user_email, city) {
+    const html = buildConfirmationEmail(token, city);
     const mailOptions = {
         from: `${email}`,
         to: `${user_email}`,
@@ -49,8 +51,8 @@ function sendConfirmationEmail(token, user_email) {
     transporter.sendMail(mailOptions);
 }
 
-function sendUpdates(token, user_email, weather) {
-    const html = buildUpdateEmail(token, weather);
+function sendUpdates(token, user_email, weather, city) {
+    const html = buildUpdateEmail(token, weather, city);
     const mailOptions = {
         from: `${email}`,
         to: `${user_email}`,

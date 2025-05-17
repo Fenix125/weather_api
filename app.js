@@ -40,8 +40,11 @@ usersRouter.get("/weather", async (req, res) => {
 function makeToken(bytes = 16) {
     return crypto.randomBytes(bytes).toString("hex");
 }
-function tokenizeEmail(email) {
-    return Buffer.from(email).toString("base64url");
+function tokenizeString(string) {
+    return Buffer.from(string).toString("base64url");
+}
+function detokenizeString(string) {
+    return Buffer.from(string, "base64url").toString("utf8");
 }
 
 usersRouter.post("/subscribe", async (req, res) => {
@@ -54,17 +57,16 @@ usersRouter.post("/subscribe", async (req, res) => {
     ) {
         return res.status(400).json({ error: "Invalid input" });
     }
-    const exists = await db("subscriptions")
-        .where({ email, city, frequency })
-        .first();
+    const exists = await db("subscriptions").where({ email, city }).first();
     if (exists) {
         return res.status(409).json({
             error: "Email already subscribed",
         });
     }
-    const token_email = tokenizeEmail(email);
+    const token_email = tokenizeString(email);
+    const token_city = tokenizeString(city);
     const random_token = makeToken();
-    const token = `${token_email}.${random_token}`;
+    const token = `${token_email}.${token_city}.${random_token}`;
     await db("subscriptions").insert({
         email,
         city,
@@ -72,7 +74,7 @@ usersRouter.post("/subscribe", async (req, res) => {
         token: random_token,
         confirmed: false,
     });
-    sendConfirmationEmail(token, email);
+    sendConfirmationEmail(token, email, city);
     res.status(200).json({
         message: "Subscription successful. Confirmation email sent.",
     });
@@ -81,13 +83,15 @@ usersRouter.post("/subscribe", async (req, res) => {
 usersRouter.get("/confirm/:token", async (req, res) => {
     const { token } = req.params;
     const parts = token.split(".");
-    if (parts.length !== 2) {
+    if (parts.length !== 3) {
         return res.status(400).json({ error: "Invalid token" });
     }
-    const [emailPart, randomPart] = parts;
+    const [emailPart, cityPart, randomPart] = parts;
 
-    let email = Buffer.from(emailPart, "base64url").toString("utf8");
-    const user = await db("subscriptions").where({ email }).first();
+    const email = detokenizeString(emailPart);
+    const city = detokenizeString(cityPart);
+
+    const user = await db("subscriptions").where({ email, city }).first();
     if (!user) {
         return res.status(404).json({ error: "Token not found" });
     }
@@ -95,7 +99,7 @@ usersRouter.get("/confirm/:token", async (req, res) => {
         return res.status(400).json({ error: "Invalid token" });
     }
     await db("subscriptions")
-        .where({ email: email })
+        .where({ email, city })
         .update({ confirmed: true });
     res.json({ message: "Subscription confirmed successfully" });
 });
@@ -103,19 +107,20 @@ usersRouter.get("/confirm/:token", async (req, res) => {
 usersRouter.get("/unsubscribe/:token", async (req, res) => {
     const { token } = req.params;
     const parts = token.split(".");
-    if (parts.length !== 2) {
+    if (parts.length !== 3) {
         return res.status(400).json({ error: "Invalid token" });
     }
-    const [emailPart, randomPart] = parts;
-    let email = Buffer.from(emailPart, "base64url").toString("utf8");
-    const user = await db("subscriptions").where({ email }).first();
+    const [emailPart, cityPart, randomPart] = parts;
+    const email = detokenizeString(emailPart);
+    const city = detokenizeString(cityPart);
+    const user = await db("subscriptions").where({ email, city }).first();
     if (!user) {
         return res.status(404).json({ error: "Token not found" });
     }
     if (user.token !== randomPart) {
         return res.status(400).json({ error: "Invalid token" });
     }
-    await db("subscriptions").where({ email }).del();
+    await db("subscriptions").where({ email, city }).del();
     res.json({ message: "Unsubscribed successfully" });
 });
 
@@ -128,19 +133,20 @@ async function sendWeatherUpdates(frequency) {
     });
     for (const u of users) {
         const weather = await fetchCurrentWeather(u.city);
-        const token_email = tokenizeEmail(u.email);
-        const token = `${token_email}.${u.token}`;
-        sendUpdates(token, u.email, weather);
+        const token_email = tokenizeString(u.email);
+        const token_city = tokenizeString(u.city);
+        const token = `${token_email}.${token_city}.${u.token}`;
+        sendUpdates(token, u.email, weather, u.city);
     }
 }
 
-// cron.schedule("0 * * * *", () => {
-//     sendWeatherUpdates("hourly");
-// });
-
-cron.schedule("*/15 * * * * *", () => {
+cron.schedule("0 * * * *", () => {
     sendWeatherUpdates("hourly");
 });
+
+// cron.schedule("*/15 * * * * *", () => {
+//     sendWeatherUpdates("hourly");
+// });
 
 cron.schedule("0 8 * * *", () => {
     sendWeatherUpdates("daily");
