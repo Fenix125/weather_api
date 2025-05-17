@@ -4,7 +4,8 @@
   "description": "A Weather API for Genesis Software Engineering School 5.0 Case Task",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,8 @@
   "homepage": "https://github.com/Fenix125/weather_api#readme",
   "dependencies": {
     "axios": "^1.9.0",
-    "nodemailer": "^7.0.3"
+    "knex": "^3.1.0",
+    "nodemailer": "^7.0.3",
+    "pg": "^8.16.0"
   }
 }

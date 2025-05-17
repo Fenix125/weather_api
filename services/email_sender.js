@@ -34,7 +34,7 @@ function buildUpdateEmail(token, weather) {
     return htmlTemplateUpdate
         .replace("{{TEMPERATURE}}", weather.temperature)
         .replace("{{HUMIDITY}}", weather.humidity)
-        .replace("{{DESCRIPION}}", weather.description)
+        .replace("{{DESCRIPTION}}", weather.description)
         .replace("{{CONFIRM_LINK}}", unsubscribeLink);
 }
 
