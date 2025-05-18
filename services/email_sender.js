@@ -23,7 +23,8 @@ const transporter = nodemailer.createTransport({
 });
 
 function buildConfirmationEmail(token, city) {
-    const confirmUrl = `http://localhost:3000/api/confirm/${token}`;
+    const url = process.env.URL;
+    const confirmUrl = `http://${url}/api/confirm/${token}`;
     return htmlTemplate
         .replace("{{TOKEN}}", token)
         .replace("{{CONFIRM_LINK}}", confirmUrl)
@@ -31,7 +32,8 @@ function buildConfirmationEmail(token, city) {
 }
 
 function buildUpdateEmail(token, weather, city) {
-    const unsubscribeLink = `http://localhost:3000/api/unsubscribe/${token}`;
+    const url = process.env.URL;
+    const unsubscribeLink = `http://${url}/api/unsubscribe/${token}`;
     return htmlTemplateUpdate
         .replace("{{TEMPERATURE}}", weather.temperature)
         .replace("{{HUMIDITY}}", weather.humidity)
