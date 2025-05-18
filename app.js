@@ -134,7 +134,15 @@ async function sendWeatherUpdates(frequency) {
         frequency,
     });
     for (const u of users) {
-        const weather = await fetchCurrentWeather(u.city);
+        try {
+            weather = await fetchCurrentWeather(u.city);
+        } catch (err) {
+            console.error(
+                `Failed to fetch weather for "${u.city}" (user ${u.email}):`,
+                err
+            );
+            continue;
+        }
         const token_email = tokenizeString(u.email);
         const token_city = tokenizeString(u.city);
         const token = `${token_email}.${token_city}.${u.token}`;
@@ -146,7 +154,7 @@ async function sendWeatherUpdates(frequency) {
 //     sendWeatherUpdates("hourly");
 // });
 
-cron.schedule("*/50 * * * * *", () => {
+cron.schedule("*/20 * * * * *", () => {
     sendWeatherUpdates("hourly");
 });
 
