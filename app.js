@@ -7,8 +7,8 @@ const {
     sendUpdates,
 } = require("./services/email_sender");
 const knex = require("knex");
-const config = require("./knexfile");
-const db = knex(config.development);
+const config = require("./knexfile")[process.env.NODE_ENV];
+const db = knex(config);
 
 const usersRouter = express.Router();
 const swaggerUi = require("swagger-ui-express");
@@ -140,13 +140,13 @@ async function sendWeatherUpdates(frequency) {
     }
 }
 
-cron.schedule("0 * * * *", () => {
-    sendWeatherUpdates("hourly");
-});
-
-// cron.schedule("*/15 * * * * *", () => {
+// cron.schedule("0 * * * *", () => {
 //     sendWeatherUpdates("hourly");
 // });
+
+cron.schedule("*/15 * * * * *", () => {
+    sendWeatherUpdates("hourly");
+});
 
 cron.schedule("0 8 * * *", () => {
     sendWeatherUpdates("daily");
