@@ -1,11 +1,15 @@
 const express = require("express");
-const crypto = require("crypto");
 const cron = require("node-cron");
 const { fetchCurrentWeather } = require("./services/weather");
 const {
     sendConfirmationEmail,
     sendUpdates,
 } = require("./services/email_sender");
+const {
+    makeToken,
+    tokenizeString,
+    detokenizeString,
+} = require("./services/tokenization");
 const knex = require("knex");
 const config = require("./knexfile")[process.env.NODE_ENV || "development"];
 const db = knex(config);
@@ -16,6 +20,7 @@ const YAML = require("yamljs");
 
 const app = express();
 const port = 3000;
+const cleanup_interval = 10;
 const swaggerDocument = YAML.load("./swagger.yaml");
 
 app.use(express.urlencoded({ extended: true }));
@@ -38,16 +43,6 @@ usersRouter.get("/weather", async (req, res) => {
         res.status(404).json({ error: "City not found" });
     }
 });
-
-function makeToken(bytes = 16) {
-    return crypto.randomBytes(bytes).toString("hex");
-}
-function tokenizeString(string) {
-    return Buffer.from(string).toString("base64url");
-}
-function detokenizeString(string) {
-    return Buffer.from(string, "base64url").toString("utf8");
-}
 
 usersRouter.post("/subscribe", async (req, res) => {
     const { email, city, frequency } = req.body;
@@ -158,6 +153,17 @@ async function sendWeatherUpdates(frequency) {
     }
 }
 
+async function cleanUpSubscriptions() {
+    await db("subscriptions")
+        .where("confirmed", false)
+        .andWhere(
+            "created_at",
+            "<",
+            db.raw(`now() - interval '${cleanup_interval} minutes'`)
+        )
+        .del();
+}
+
 // cron.schedule("0 * * * *", () => {
 //     sendWeatherUpdates("hourly");
 // });
@@ -169,3 +175,5 @@ cron.schedule("*/20 * * * * *", () => {
 cron.schedule("0 8 * * *", () => {
     sendWeatherUpdates("daily");
 });
+
+cron.schedule("*/10 * * * *", cleanUpSubscriptions);
