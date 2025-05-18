@@ -65,6 +65,14 @@ usersRouter.post("/subscribe", async (req, res) => {
             error: "Email already subscribed",
         });
     }
+    try {
+        await fetchCurrentWeather(city);
+    } catch (err) {
+        return res
+            .status(400)
+            .json({ error: `City "${city}" is not found or not supported.` });
+    }
+
     const token_email = tokenizeString(email);
     const token_city = tokenizeString(city);
     const random_token = makeToken();
