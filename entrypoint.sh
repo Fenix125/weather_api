@@ -6,5 +6,4 @@ until pg_isready -h "$PG_HOST" -p "$PG_PORT" -U "$PG_USER"; do
   sleep 2
 done
 
-npm run migrate
-node app.js
+npm start

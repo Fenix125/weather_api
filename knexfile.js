@@ -12,6 +12,9 @@ module.exports = {
             database: "weather_api",
             port: 5432,
         },
+        migrations: {
+            directory: "./migrations",
+        },
     },
     production: {
         client: "pg",

@@ -7,7 +7,7 @@ const {
     sendUpdates,
 } = require("./services/email_sender");
 const knex = require("knex");
-const config = require("./knexfile")[process.env.NODE_ENV];
+const config = require("./knexfile")[process.env.NODE_ENV || "development"];
 const db = knex(config);
 
 const usersRouter = express.Router();
