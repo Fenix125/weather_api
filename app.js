@@ -164,11 +164,7 @@ async function cleanUpSubscriptions() {
         .del();
 }
 
-// cron.schedule("0 * * * *", () => {
-//     sendWeatherUpdates("hourly");
-// });
-
-cron.schedule("*/20 * * * * *", () => {
+cron.schedule("0 * * * *", () => {
     sendWeatherUpdates("hourly");
 });
 
