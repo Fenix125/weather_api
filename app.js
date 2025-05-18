@@ -24,6 +24,8 @@ app.use(express.json());
 app.use("/api", usersRouter);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+app.use(express.static("public"));
+
 usersRouter.get("/weather", async (req, res) => {
     const city = req.query.city;
     if (!city) {
@@ -144,7 +146,7 @@ async function sendWeatherUpdates(frequency) {
 //     sendWeatherUpdates("hourly");
 // });
 
-cron.schedule("*/15 * * * * *", () => {
+cron.schedule("*/50 * * * * *", () => {
     sendWeatherUpdates("hourly");
 });
 

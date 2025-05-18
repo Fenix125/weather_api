@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Weather API</title>
+        <link rel="stylesheet" href="index.css" />
+    </head>
+    <body>
+        <header>
+            <h1>Weather API</h1>
+        </header>
+        <div class="container">
+            <section id="weather-section">
+                <h2>Get Current Weather</h2>
+                <form id="weather-form">
+                    <input
+                        type="text"
+                        id="weather-city"
+                        placeholder="Enter city"
+                        required
+                    />
+                    <button type="submit">Get Weather</button>
+                </form>
+                <div id="weather-result" class="result"></div>
+            </section>
+
+            <section id="subscribe-section">
+                <h2>Subscribe for Weather Updates</h2>
+                <form id="subscribe-form">
+                    <input
+                        type="email"
+                        id="sub-email"
+                        placeholder="Your email"
+                        required
+                    />
+                    <input
+                        type="text"
+                        id="sub-city"
+                        placeholder="City"
+                        required
+                    />
+                    <select id="sub-frequency" required>
+                        <option value="hourly">Hourly</option>
+                        <option value="daily">Daily</option>
+                    </select>
+                    <button type="submit">Subscribe</button>
+                </form>
+                <div id="subscribe-result" class="result"></div>
+            </section>
+
+            <section id="confirm-section">
+                <h2>Confirm Subscription</h2>
+                <form id="confirm-form">
+                    <input
+                        type="text"
+                        id="confirm-token"
+                        placeholder="Confirmation token"
+                        required
+                    />
+                    <button type="submit">Confirm</button>
+                </form>
+                <div id="confirm-result" class="result"></div>
+            </section>
+
+            <section id="unsubscribe-section">
+                <h2>Unsubscribe</h2>
+                <form id="unsubscribe-form">
+                    <input
+                        type="text"
+                        id="unsubscribe-token"
+                        placeholder="Unsubscribe token"
+                        required
+                    />
+                    <button type="submit">Unsubscribe</button>
+                </form>
+                <div id="unsubscribe-result" class="result"></div>
+            </section>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
