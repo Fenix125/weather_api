@@ -53,11 +53,24 @@ If there will be some error conections with your postgres db you can verify if i
 
 - GET /api/weather?city={city} - gets current weather for a given city with Temperature, Humidity and Weather description
 
-- POST /api/subscribe - subscribes a given email to weather updates for a given city with a given frequency (daily or hourly), send's an confirmation email with your unique token, may sure to remember/save it, email provides a link which you can click to confirm subscription. Email which are not confirmed after more than 10 minutes will be automatically deleted
+- POST /api/subscribe - subscribes a given email to weather updates for a given city with a given frequency (daily or hourly), send's an confirmation email with your unique token, may sure to remember/save it, email provides a link which you can click to confirm subscription. Email which are not confirmed after more than 10 minutes will be automatically deleted. Users can subscribe to multiple cities weather updates
 
 - GET /api/confirm/{token} - confirms email subscription (the link to this endpoint is provided on the confirmation email)
 
 - GET /api/unsubscribe/{token} - unsubscribes user from weather updates (a link to this endpoint is provided in each weather update)
+
+
+
+### General
+
+- For testing/basic understanding of REST API methods there were used Swagger UI: https://editor.swagger.io, you can access it by adding **/api-docs** to url (note that it only
+  works for localhost), even though it sometimes has bugs (as the 2.0 older version of swagger is used), it was great for generating requests
+- Express was used to build RESTful API
+- PostgreSQL was used as a relational database to store users necessary data
+- Knex.js an amazing SQL query builder and migration tool to manage database schema.
+- Docker & Docker Compose to containerize both the API and database, ensuring consistent development and deployment environments.
+- node-cron schedules fetch-and-send jobs at the specified frequency per city, if weather updates set to be hourly - every hour (xx:00), for daily - every day at 08:00
+- Hosted on Render.com
 
 
 ### Extra tasks:
@@ -69,17 +82,6 @@ If there will be some error conections with your postgres db you can verify if i
 - [1] Weather API: https://www.weatherapi.com
 - [2] Render: https://render.com
 
-
-### General
-
-- For testing/basic understanding of REST API methods there were used Swagger UI: https://editor.swagger.io, you can access it by adding **/api-docs** to url (note that it only
-  works for localhost), even though it sometimes has bugs (as the 2.0 older version of swagger is used), it was greate for generating requests
-- Express was used to build RESTful API
-- PostgreSQL was used as a relational database to store users necessary data
-- Knex.js an amazing SQL query builder and migration tool to manage database schema.
-- Docker & Docker Compose to containerize both the API and database, ensuring consistent development and deployment environments.
-- node-cron schedules fetch-and-send jobs at the specified frequency per city, if weather updates set to be hourly - every hour (xx:00), for daily - every day at 08:00
-- Hosted on Render.com
 
 
 
