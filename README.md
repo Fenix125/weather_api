@@ -8,7 +8,7 @@ Author: Ivasiuk Mykhailo (https://github.com/Fenix125)
 node, docker, postgres, axios, dotenv, express, knex, node-cron, nodemailer, pg, swagger-ui-express, yamljs
 
 ### Compilation
-!NOTE
+**!NOTE**
 
 Before next steps are required to set environment variables. In repo there is an example of it called .env.example with some already defined, which you may leave them unchanged, but it is necessary to set WEATHER_API_KEY, GMAIL and GMAIL_PASS. 
 
@@ -18,7 +18,7 @@ The GMAIL is the email of account that will sent the subscription confirmation a
 
 The GMAIL_PASS is the app password for gmail, you can generate it here: https://myaccount.google.com/apppasswords
 
-!At the end rename .env.example to .env
+**!At the end rename .env.example to .env**
 
 
 
@@ -32,6 +32,9 @@ docker-compose up --build
 ```
 
 Docker will create the image and two containers: one with app, second with posgtres database
+
+
+
 
 Also you can run program manually using npm:
 ```
