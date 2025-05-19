@@ -1,9 +1,7 @@
 # Weather API
 A Weather API for Genesis Software Engineering School 5.0 Case Task
 
-Author:
-
-Ivasiuk Mykhailo (https://github.com/Fenix125)
+Author: Ivasiuk Mykhailo (https://github.com/Fenix125)
 
 ## Prerequisites
 
@@ -50,10 +48,13 @@ If there will be some error conections with your postgres db you can verify if i
 
 ### Usage
 
-GET /api/weather?city={city} - gets current weather for a given city with Temperature, Humidity and Weather description
-POST /api/subscribe - subscribe a given email to weather updates for a given city with a given frequency (daily or hourly), send's an confirmation email with your unique token, may sure to remember/save it, email provides a link which you can click to confirm subscription
-GET /api/confirm/{token} - confirms email subscription (the link to this endpoint is provided on the confirmation email)
-GET /api/unsubscribe/{token} - unsubscribes user from weather updates (a link to this endpoint is provided in each weather update)
+- GET /api/weather?city={city} - gets current weather for a given city with Temperature, Humidity and Weather description
+
+- POST /api/subscribe - subscribe a given email to weather updates for a given city with a given frequency (daily or hourly), send's an confirmation email with your unique token, may sure to remember/save it, email provides a link which you can click to confirm subscription
+
+- GET /api/confirm/{token} - confirms email subscription (the link to this endpoint is provided on the confirmation email)
+
+- GET /api/unsubscribe/{token} - unsubscribes user from weather updates (a link to this endpoint is provided in each weather update)
 
 
 ### Extra tasks:
