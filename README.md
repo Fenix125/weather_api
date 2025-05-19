@@ -1,5 +1,5 @@
 # Weather API
-A Weather API for Genesis Software Engineering School 5.0 Case Task
+A Weather API for [Genesis Software Engineering School 5.0](https://academy.gen.tech/software-engineering-school) Case Task
 
 Author: Ivasiuk Mykhailo (https://github.com/Fenix125)
 
@@ -40,7 +40,7 @@ Also you can run program manually using npm:
 ```
 npm install
 ```
-Create weather_api database in postgres on port 5432, run:
+Create weather_api database in postgres on port 5432, then run:
 ```
 npm start
 ```
@@ -63,24 +63,24 @@ If there will be some error conections with your postgres db you can verify if i
 
 ### General
 
-- For testing/basic understanding of REST API methods there were used Swagger UI: https://editor.swagger.io, you can access it by adding **/api-docs** to url (note that it only
+- For testing/basic understanding of REST API methods there were used [Swagger UI](https://editor.swagger.io), you can access it by adding **/api-docs** to url (note that it only
   works for localhost), even though it sometimes has bugs (as the 2.0 older version of swagger is used), it was great for generating requests
 - Express was used to build RESTful API
 - PostgreSQL was used as a relational database to store users necessary data
 - Knex.js an amazing SQL query builder and migration tool to manage database schema.
 - Docker & Docker Compose to containerize both the API and database, ensuring consistent development and deployment environments.
-- node-cron schedules fetch-and-send jobs at the specified frequency per city, if weather updates set to be hourly - every hour (xx:00), for daily - every day at 08:00
+- node-cron schedules fetch-and-send jobs at the specified frequency per city. If weather updates are set to be hourly - every hour (xx:00), for daily - every day at 08:00
 - Hosted on Render.com
 
 
 ### Extra tasks:
-- There is a single HTML page which you can use for getting weather description, subcribing for weather updates, entering confirmation/unsubscription token
+- There is a single HTML page which you can use for getting weather description, subcribing for weather updates, entering confirmation/unsubscription token.
 - The API was hosted using [2] Render services, it's url: https://weather-api-ydua.onrender.com, you will receive all kind of emails from weatherapiappp@gmail.com (make sure to check the spam folder, if no email are being delivered)
 
 
 ### References
-- [1] Weather API: https://www.weatherapi.com
-- [2] Render: https://render.com
+- [1] [Weather API](https://www.weatherapi.com)
+- [2] [Render](https://render.com)
 
 
 
