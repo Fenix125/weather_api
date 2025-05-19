@@ -59,7 +59,7 @@ If there will be some error conections with your postgres db you can verify if i
 
 ### Extra tasks:
 - There is a single HTML page which you can use for getting weather description, subcribing for weather updates, entering confirmation/unsubscription token
-- The API was hosted using [2] Render services
+- The API was hosted using [2] Render services, it's url: https://weather-api-ydua.onrender.com, you will receive all kind of emails from weatherapiappp@gmail.com (make sure to check the spam folder, if no email are being delivered)
 
 
 ### References
